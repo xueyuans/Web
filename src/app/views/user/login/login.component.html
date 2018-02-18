@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+
+</head>
+<body>
+<div class="container-fluid">
+  <h1>Login</h1>
+
+  <!--<div *ngIf="errorFlag"-->
+       <!--class="alert alert-danger">-->
+    <!--{{errorMsg}}-->
+
+  <!--</div>-->
+
+
+
+  <form (ngSubmit) = "login()" #f="ngForm">
+    <label>Username</label>
+    <input   placeholder="username" name="username" type="text" class="form-control" ngModel required #username="ngModel"/>
+    <span class="help-block" *ngIf="!username.valid && username.touched">
+        Please enter username!
+  </span>
+
+    <label>Password</label>
+    <input   placeholder="password" name="password" type="text" class="form-control" ngModel required #password="ngModel"/>
+
+
+
+    <button class="btn btn-primary btn-block" type="submit" [disabled]="!f.valid">Login</button>
+
+    <!--<a class="btn btn-success btn-block"-->
+    <!--href="../register/register.component.html">Register</a>-->
+    <!--{{f.valid}}-->
+
+  </form>
+</div>
+</body>
+</html>
