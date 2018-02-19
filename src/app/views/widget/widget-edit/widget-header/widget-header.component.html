@@ -20,7 +20,7 @@
 </nav>
 
 <div class="container">
-  <form (ngSubmit)="delete()" #f="ngForm">
+  <!--<form (ngSubmit)="delete()" #f="ngForm">-->
     <div class="form-group">
       <label for="heading-name">Name</label>
       <input type="text" class="form-control" id="heading-name" placeholder="Name"
@@ -37,8 +37,9 @@
       <label for="heading-size">Size</label>
       <input type="text" class="form-control" id="heading-size" placeholder="3">
     </div>
-  </form>
-  <button class="btn btn-danger  btn-block" type="submit" [disabled]="!f.valid">Delete</button>
+  <button class="btn btn-danger  btn-block" (click)="delete()">Delete</button>
+  <!--</form>-->
+  <!--<button class="btn btn-danger  btn-block" type="submit" [disabled]="!f.valid">Delete</button>-->
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">

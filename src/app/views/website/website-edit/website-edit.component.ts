@@ -12,6 +12,7 @@ export class WebsiteEditComponent implements OnInit {
   wid: String;
   userId: String;
   websites: Website[] = [];
+  website: Website;
   constructor(private websiteService: WebsiteService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   deleteWeb() {
@@ -21,17 +22,20 @@ export class WebsiteEditComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.params.subscribe(
       (params: any) => {
-        console.log(params['_id']);
-        this.userId = params['_id'];
+        console.log(params['userId']);
+        this.userId = params['userId'];
       }
     );
     this.websites = this.websiteService.findWebsitesByUser2(this.userId);
     console.log(this.websites);
 
-    this.activatedRoute.params.subscribe(params => {
-      console.log(params.get('wid'));
-      this.wid = params.get('wid');
+    this.activatedRoute.params.subscribe(
+      (params: any) => {
+      console.log(params['wid']);
+      this.wid = params['wid'];
     });
+    this.website = this.websiteService.findWebsitesById(this.wid);
+    console.log(this.website);
   }
 
 

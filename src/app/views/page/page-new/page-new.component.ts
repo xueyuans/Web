@@ -24,8 +24,7 @@ export class PageNewComponent implements OnInit {
 
     const page: Page = new Page(this.pageService.pages.length, this.pageName, this.websiteId, this.title);
     this.pageService.createWebsite(this.websiteId, page);
-
-    this.router.navigate(['..']);
+    alert('create page successfully');
   }
 
 

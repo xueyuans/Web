@@ -20,7 +20,7 @@
 </nav>
 
 <div class="container">
-  <form (ngSubmit)="delete()" #f="ngForm">
+  <!--<form (ngSubmit)="delete()" #f="ngForm">-->
     <div class="form-group">
       <label for="youtube-name">Name</label>
       <input type="text" class="form-control" id="youtube-name" placeholder="Name"ngModel required
@@ -41,8 +41,9 @@
       <input type="text" class="form-control" id="youtube-width" placeholder="100%" ngModel required
              name="width" #width="ngModel"/>
     </div>
-    <button type="submit" class="btn btn-danger  btn-block" [disabled]="!f.valid">Delete</button>
-  </form>
+    <button class="btn btn-danger btn-block" (click)="delete()">Delete</button>
+    <!--<button type="submit" class="btn btn-danger  btn-block" [disabled]="!f.valid">Delete</button>-->
+  <!--</form>-->
 
 </div>
 

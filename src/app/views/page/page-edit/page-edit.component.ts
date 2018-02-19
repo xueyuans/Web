@@ -14,7 +14,7 @@ export class PageEditComponent implements OnInit {
 
   deleteWeb() {
     this.pageService.deleteWebsite(this.pageID);
-    alert('delete successful')
+    alert('delete successful');
     this.router.navigate(['..']);
   }
 

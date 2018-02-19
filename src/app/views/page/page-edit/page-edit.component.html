@@ -42,7 +42,8 @@
              name="title" #title="ngModel"/>
     </div>
   </form>
-  <button class="btn btn-danger btn-block" type="submit" [disabled]="!f.valid">Delete</button>
+  <!--<button class="btn btn-danger btn-block" type="submit" [disabled]="!f.valid">Delete</button>-->
+  <button class="btn btn-danger btn-block" (click)="deleteWeb()">Delete</button>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">

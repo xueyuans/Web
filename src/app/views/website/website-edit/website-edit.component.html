@@ -1,5 +1,4 @@
-
-<nav class="navbar navbar-fixed-top cl-blue-navbar">
+<nav class="navbar cl-blue-navbar">
   <div class="row">
     <div class="col-xs-4 hidden-xs">
       <div class="container-fluid">
@@ -17,9 +16,9 @@
       </div>
     </div>
 
-    <div class="col-xs-8">
+    <div class="col-xs-8" >
       <div class="container-fluid">
-        <a class="cl-text-white navbar-brand cl-text-bold" href="#">
+        <a class="cl-text-white navbar-brand cl-text-bold" routerLink=".">
           Edit Websites
         </a>
         <a routerLink=".." class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
@@ -42,10 +41,11 @@
   </div>
 
   <div class="col-xs-8 borders">
-    <form>
-      <div class="form-group ">
-        <label for="website-name">Website Name</label>
-        <input type="text" class="form-control" id="website-name" placeholder="Blogger" ngModel required
+    <!--<form (ngSubmit)="deleteWeb()" #f="ngForm">-->
+      <div class="form-group">
+        <label class="cl-8-top" for="website-name">Website Name</label>
+        <input type="text" class="form-control" id="website-name" placeholder={{website.name}}
+               ngModel required
                name="webname" #webname="ngModel"/>
         <div [hidden]="webname.valid || webname.untouched"
              class="alert alert-danger">
@@ -54,12 +54,16 @@
       </div>
       <div class="form-group">
         <label for="website-description">Website Description</label>
-        <textarea id="website-description" class="form-control" rows="5" ngModel required
-                  placeholder="Blog is a blog-publishing service." #description="ngModel"></textarea>
+        <textarea id="website-description" class="form-control" rows="5"
+                  placeholder={{website.description}}
+                  ngModel required
+                  name="description" #description="ngModel"></textarea>
       </div>
-      <a class="btn btn-danger  btn-block" routerLink="..">Delete</a>
-    </form>
+      <button class="btn btn-danger btn-block" (click)="deleteWeb()">Delete</button>
+      <!--<button class="btn btn-danger btn-block" routerLink=".." type="submit" [disabled]="!f.valid">Delete</button>-->
+    <!--</form>-->
   </div>
+
 
 
 </div>

@@ -15,6 +15,8 @@ export class WebsiteNewComponent implements OnInit {
   userId: String;
   webname: String;
   description: String;
+  websites: Website[];
+
 
   constructor(private websiteService: WebsiteService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
@@ -35,6 +37,7 @@ export class WebsiteNewComponent implements OnInit {
       }
     );
 
+    this.websites = this.websiteService.findWebsitesByUser(this.userId);
 
   }
 

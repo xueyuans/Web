@@ -14,6 +14,7 @@ export class WidgetHeaderComponent implements OnInit {
 
   delete() {
     this.widgetService.deleteWidgetByWidgetId(this.wgid);
+    alert('delete successful');
   }
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
