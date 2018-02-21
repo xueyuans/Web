@@ -57,7 +57,7 @@ export class WebsiteService {
     }
   }
 
-  deleteWebsite(websiteId: String) {
+  deleteWebsiteById(websiteId: String) {
     for (const i in this.websites) {
       if (this.websites[i]._id === websiteId) {
         const j = +i;

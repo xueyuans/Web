@@ -10,7 +10,7 @@
         <a class="cl-text-white navbar-brand cl-text-bold" href="#">
           Websites
         </a>
-        <a routerLink="../new" class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
+        <a routerLink=".." class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
           <span class="glyphicon glyphicon-plus"></span>
         </a>
       </div>
@@ -21,8 +21,8 @@
         <a class="cl-text-white navbar-brand cl-text-bold" routerLink=".">
           Edit Websites
         </a>
-        <a routerLink=".." class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
-          <span class="glyphicon glyphicon-ok"></span>
+        <a class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
+          <span class="glyphicon glyphicon-ok" (click)="updateWeb()"></span>
         </a>
       </div>
     </div>
@@ -41,7 +41,7 @@
   </div>
 
   <div class="col-xs-8 borders">
-    <!--<form (ngSubmit)="deleteWeb()" #f="ngForm">-->
+    <form #f="ngForm">
       <div class="form-group">
         <label class="cl-8-top" for="website-name">Website Name</label>
         <input type="text" class="form-control" id="website-name" placeholder={{website.name}}
@@ -61,7 +61,7 @@
       </div>
       <button class="btn btn-danger btn-block" (click)="deleteWeb()">Delete</button>
       <!--<button class="btn btn-danger btn-block" routerLink=".." type="submit" [disabled]="!f.valid">Delete</button>-->
-    <!--</form>-->
+    </form>
   </div>
 
 

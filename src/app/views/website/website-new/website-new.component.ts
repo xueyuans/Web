@@ -25,8 +25,8 @@ export class WebsiteNewComponent implements OnInit {
     this.description = this.webForm.value.description;
     this.websiteService.createWebsite(this.userId,
       new Website(this.websiteService.websites.length.toString(), this.webname, this.userId, this.description));
-    alert('successfully create web')
-    this.router.navigate(['..']);
+    alert('successfully create web');
+
   }
 
   ngOnInit() {

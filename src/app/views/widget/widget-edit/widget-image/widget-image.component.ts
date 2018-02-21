@@ -28,10 +28,12 @@ export class WidgetImageComponent implements OnInit {
     this.widget = new Widget(this.widgetService.widgets.length, 'IMAGE', this.pageID,
       '1', this.text.toString(), this.width.toString(), this.url.toString());
     this.widgetService.createWidget(this.pageID, this.widget);
+    alert('update successfully');
   }
 
   delete() {
     this.widgetService.deleteWidgetByWidgetId(this.wgid);
+    alert('delete successfully');
   }
 
   constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute) { }

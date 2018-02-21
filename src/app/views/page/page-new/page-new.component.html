@@ -9,18 +9,18 @@
     </div>
     <div class="navbar-text pull-right">
       <a routerLink=".." class="cl-icon-padding cl-text-black">
-          <span class="glyphicon glyphicon-ok">
+          <span class="glyphicon glyphicon-ok" (click)="create()">
           </span>
       </a>
     </div>
-    <a class="navbar-brand cl-text-white cl-text-bold" routerLink="..">
+    <a class="navbar-brand cl-text-white cl-text-bold" routerLink="./">
       New Page
     </a>
   </div>
 </nav>
 
 <div class="container">
-  <form (ngSubmit)="create()" #f="ngForm">
+  <form #f="ngForm">
     <div class="form-group">
       <label>Name</label>
       <input type="text" class="form-control" name="pagename" placeholder="Page Name" ngModel required #pagename="ngModel"/>
@@ -34,7 +34,7 @@
       <input type="text" class="form-control" placeholder="Page Title" ngModel required name="title" #title="ngModel"/>
     </div>
 
-    <button type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">Submit</button>
+    <!--<button type="submit" class="btn btn-primary btn-block" [disabled]="!f.valid">Submit</button>-->
   </form>
 
 

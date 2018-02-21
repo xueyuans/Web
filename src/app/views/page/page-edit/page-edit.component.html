@@ -12,8 +12,8 @@
       </a>
     </div>
     <div class="navbar-text pull-right">
-      <a routerLink=".." class="cl-icon-padding cl-text-black">
-          <span class="glyphicon glyphicon-ok">
+      <a class="cl-icon-padding cl-text-black">
+          <span class="glyphicon glyphicon-ok"  (click)="updatePage()">
           </span>
       </a>
     </div>
@@ -24,7 +24,7 @@
 </nav>
 
 <div class="container">
-  <form (ngSubmit)="deleteWeb()" #f="ngForm">
+  <form (ngSubmit)="deletePage()" #f="ngForm">
     <div class="form-group">
       <label for="page-name">Name</label>
       <input type="text" class="form-control" id="page-name" placeholder="Page Name"
@@ -43,7 +43,7 @@
     </div>
   </form>
   <!--<button class="btn btn-danger btn-block" type="submit" [disabled]="!f.valid">Delete</button>-->
-  <button class="btn btn-danger btn-block" (click)="deleteWeb()">Delete</button>
+  <button class="btn btn-danger btn-block" type="submit">Delete</button>
 </div>
 
 <nav class="navbar navbar-default navbar-fixed-bottom">
