@@ -15,12 +15,13 @@ export class PageEditComponent implements OnInit {
   websiteId: String;
   title: String;
   pageID: String;
+  page: Page
   constructor(private pageService: PageService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   deletePage() {
-    this.pageService.deleteWebsite(this.pageID);
+    this.pageService.deletePage(this.pageID);
     alert('delete successful');
-    this.router.navigate(['..']);
+
   }
 
   updatePage() {
@@ -40,6 +41,8 @@ export class PageEditComponent implements OnInit {
       console.log(params.get('wid'));
       this.websiteId = params.get('wid');
     });
+
+    this.page = this.pageService.findPageById(this.pageID);
   }
 
 }

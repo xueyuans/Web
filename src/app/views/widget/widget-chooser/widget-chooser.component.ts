@@ -9,7 +9,6 @@ import {WidgetService} from '../../../services/widget.service.client';
   styleUrls: ['./widget-chooser.component.css']
 })
 export class WidgetChooserComponent implements OnInit {
-
   widgets: Widget[] = [];
   pageID: String;
   constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService) { }

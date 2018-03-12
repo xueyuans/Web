@@ -10,37 +10,44 @@ import {Widget} from '../../../../models/widget.model.client';
   styleUrls: ['./widget-header.component.css']
 })
 export class WidgetHeaderComponent implements OnInit {
-  @ViewChild('f') widgetForm: NgForm;
-  name: String;
-  text: String;
-  size;
+  @ViewChild('f') headerForm: NgForm;
   wgid: String;
-  pageId: String;
+  pageID: String;
+  widget: Widget;
   constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService) { }
 
   delete() {
     this.widgetService.deleteWidgetByWidgetId(this.wgid);
-    alert('delete successful');
   }
 
   update() {
-    this.name = this.widgetForm.value.headName;
-    this.text = this.widgetForm.value.text;
-    this.size = this.widgetForm.value.size;
-    this.widgetService.updateWidget(this.wgid, new Widget(this.wgid, 'HEADER', this.pageId, this.size, this.text));
-    alert('update successfully');
+    if (this.headerForm.value.headName === '') {
+      alert('Please input header Name');
+    }
+    this.widget.text = this.headerForm.value.text;
+    this.widget.size = this.headerForm.value.size;
+    if (this.wgid === undefined) {
+      this.widget._id = this.widgetService.widgets.length.toString();
+      this.widgetService.createWidget(this.pageID, this.widget);
+    } else {
+      this.widgetService.updateWidget(this.wgid, this.widget);
+    }
   }
-
   ngOnInit() {
+    this.activatedRoute.params.subscribe(
+      (params: any) => {
+        this.pageID = params['pid'];
+      }
+    );
     this.activatedRoute.params.subscribe(params => {
-      console.log(params['wgid']);
       this.wgid = params['wgid'];
     });
-
-    this.activatedRoute.params.subscribe(params => {
-      console.log(params['pid']);
-      this.pageId = params['pid'];
-    });
+    if (this.wgid === undefined) {
+      this.widget = new Widget('', 'HEADER', this.pageID, '', '', '', '');
+    } else {
+      this.widget = this.widgetService.findWidgetById(this.wgid);
+    }
   }
+
 
 }

@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   pwErrorMsg = 'Password should be same';
   userErrorFlag: boolean;
   userErrorMsg = 'Already Exist this userName';
+  user: User;
   constructor(private userService: UserService, private router: Router) { }
 
   register() {
@@ -31,9 +32,11 @@ export class RegisterComponent implements OnInit {
     if (this.userService.findUserByCredential(this.username, this.password)) {
       this.userErrorFlag = true;
     }
-    const user: User = new User(this.userService.users.length, this.username, this.password);
-    this.userService.createUser(user);
-    this.router.navigate(['/profile', user._id]);
+    this.user = new User(this.userService.users.length + 1, this.username, this.password);
+    console.log(this.user);
+    this.userService.createUser(this.user);
+    alert('create successfully');
+    this.router.navigate(['/profile', this.user._id]);
   }
 
   login() {
@@ -41,6 +44,7 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = this.userService.dumpUser();
   }
 
 }

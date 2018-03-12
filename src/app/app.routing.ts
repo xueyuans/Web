@@ -14,6 +14,9 @@ import {PageEditComponent} from './views/page/page-edit/page-edit.component';
 import {WidgetListComponent} from './views/widget/widget-list/widget-list.component';
 import {WidgetChooserComponent} from './views/widget/widget-chooser/widget-chooser.component';
 import {WidgetEditComponent} from './views/widget/widget-edit/widget-edit.component';
+import {WidgetHeaderComponent} from './views/widget/widget-edit/widget-header/widget-header.component';
+import {WidgetImageComponent} from './views/widget/widget-edit/widget-image/widget-image.component';
+import {WidgetYoutubeComponent} from './views/widget/widget-edit/widget-youtube/widget-youtube.component';
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -27,6 +30,9 @@ const appRoutes: Routes = [
   {path: 'profile/:userId/website/:wid/page/:pid', component: PageEditComponent},
   {path: 'profile/:userId/website/:wid/page/:pid/widget', component: WidgetListComponent},
   {path: 'profile/:userId/website/:wid/page/:pid/widget/new', component: WidgetChooserComponent},
+  {path: 'profile/:userId/website/:wid/page/:pid/widget/header', component: WidgetHeaderComponent},
+  {path: 'profile/:userId/website/:wid/page/:pid/widget/image', component: WidgetImageComponent},
+  {path: 'profile/:userId/website/:wid/page/:pid/widget/youtube', component: WidgetYoutubeComponent},
   {path: 'profile/:userId/website/:wid/page/:pid/widget/:wgid', component: WidgetEditComponent},
 ];
 

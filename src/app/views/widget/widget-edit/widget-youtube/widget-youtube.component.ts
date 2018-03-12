@@ -10,41 +10,52 @@ import {Widget} from '../../../../models/widget.model.client';
   styleUrls: ['./widget-youtube.component.css']
 })
 export class WidgetYoutubeComponent implements OnInit {
-  @ViewChild('f') YoutubeForm: NgForm;
+
+  @ViewChild('f') youtubeForm: NgForm;
   pageID: String;
+  wgid: String;
   width: String;
   name: String;
   text: String;
   url: String;
   widget: Widget;
-  widgetId: String;
-  delete() {
-    this.widgetService.deleteWidgetByWidgetId(this.widgetId);
-    alert('delete successfully');
+  constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService) { }
+
+  update () {
+    if (this.youtubeForm.value.headName === '') {
+      alert('Please input header Name');
+    }
+    this.widget.url = this.youtubeForm.value.url;
+    this.widget.text = this.youtubeForm.value.text;
+    this.widget.width = this.youtubeForm.value.width;
+    if (this.wgid === undefined) {
+      this.widget._id = this.widgetService.widgets.length.toString();
+      this.widgetService.createWidget(this.pageID, this.widget);
+    } else {
+      this.widgetService.updateWidget(this.wgid, this.widget);
+    }
   }
 
-  update() {
-    this.name = this.YoutubeForm.value.name;
-    this.width = this.YoutubeForm.value.width;
-    this.text = this.YoutubeForm.value.text;
-    this.url = this.YoutubeForm.value.url;
-    this.widgetService.updateWidget(this.widgetId, new Widget(this.widgetId, 'YOUTUBE', this.pageID,
-      '', this.text.toString(), this.width.toString(), this.url.toString()));
-    alert('update successfully');
+  delete () {
+    const widget = this.widgetService.deleteWidgetByWidgetId(this.wgid);
   }
-
-  constructor(private widgetService: WidgetService, private activatedRoute: ActivatedRoute) { }
-
   ngOnInit() {
+    this.activatedRoute.params.subscribe(
+      (params: any) => {
+        console.log(params['pid']);
+        this.pageID = params['pid'];
+      }
+    );
+
     this.activatedRoute.params.subscribe(params => {
       console.log(params['wgid']);
-      this.widgetId = params['wgid'];
+      this.wgid = params['wgid'];
     });
 
-    this.activatedRoute.params.subscribe(params => {
-      console.log(params['pid']);
-      this.pageID = params['pid'];
-    });
+    if (this.wgid === undefined) {
+      this.widget = new Widget('', 'YOUTUBE', this.pageID, '', '', '', '');
+    } else {
+      this.widget = this.widgetService.findWidgetById(this.wgid);
+    }
   }
-
 }

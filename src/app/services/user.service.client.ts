@@ -9,8 +9,21 @@ export class UserService {
     new User('345', 'charlie', 'qq')
   ];
 
+  dumpUser() {
+    return new User(undefined, undefined, undefined);
+  }
+
+  copyUser(user: User) {
+    if (!user) {
+      return undefined;
+    }
+    return new User(user._id, user.username, user.password);
+  }
+
   createUser(user: User) {
-    this.users.push(new User(user._id, user.username, user.password));
+    const createdUser = new User(String(this.users.length + 1), user.username, user.password);
+    this.users.push(createdUser);
+    return this.copyUser(createdUser);
   }
 
   findUserByCredential(username: String, password: String) {

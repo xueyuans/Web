@@ -20,5 +20,4 @@ export class WidgetEditComponent implements OnInit {
     });
     this.widget = this.widgetService.findWidgetById(this.wgid);
   }
-
 }
