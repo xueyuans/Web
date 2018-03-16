@@ -30,18 +30,16 @@
     <div class="form-group">
       <label for="first-name">First Name</label>
       <input placeholder="username" type="text" class="form-control" id="first-name"
-             [(ngModel)]="user.firstName" required
-             name="first-name" #firstName="ngModel"/>
+             [(ngModel)]="user.firstName" required name="first-name"/>
     </div>
 
     <div class="form-group">
       <label for="last-name">First Name</label>
       <input placeholder="username" type="text" class="form-control" id="last-name"
-             [(ngModel)]="user.lastName" required
-             name="last-name" #lastName="ngModel"/>
+             [(ngModel)]="user.lastName" required name="last-name"/>
     </div>
   <button class="btn btn-primary btn-block" type = "submit">Update</button>
-
+    <a  (click)="deleteUser()" class="btn btn-primary btn-block" routerLink="/login">Delete</a>
   <a  routerLink="./website" class="btn btn-primary btn-block" >Websites</a>
   <button class="btn btn-danger  btn-block" type = "button" (click)="logout()">Logout</button>
     </form>

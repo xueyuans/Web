@@ -9,7 +9,6 @@ import {WidgetService} from '../../../services/widget.service.client';
   styleUrls: ['./widget-chooser.component.css']
 })
 export class WidgetChooserComponent implements OnInit {
-  widgets: Widget[] = [];
   pageID: String;
   constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService) { }
 
@@ -20,8 +19,6 @@ export class WidgetChooserComponent implements OnInit {
         this.pageID = params['pid'];
       }
     );
-
-    this.widgets = this.widgetService.findWidgetByPage(this.pageID);
   }
 
 }

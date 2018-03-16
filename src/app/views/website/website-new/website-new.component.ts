@@ -16,6 +16,7 @@ export class WebsiteNewComponent implements OnInit {
   webname: String;
   description: String;
   websites: Website[];
+  website: Website;
 
 
   constructor(private websiteService: WebsiteService, private activatedRoute: ActivatedRoute, private router: Router) { }
@@ -23,22 +24,26 @@ export class WebsiteNewComponent implements OnInit {
   createWeb() {
     this.webname = this.webForm.value.webname;
     this.description = this.webForm.value.description;
-    this.websiteService.createWebsite(this.userId,
-      new Website(this.websiteService.websites.length.toString(), this.webname, this.userId, this.description));
-    alert('successfully create web');
-
+    this.website = new Website(this.websiteService.websites.length.toString(), this.webname, this.userId, this.description);
+    this.websiteService.createWebsite(this.userId, this.website).subscribe(
+      (website: Website) => {
+        this.website = website;
+        this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+      }
+    );
   }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(
       (params: any) => {
-        console.log(params['userId']);
         this.userId = params['userId'];
+        this.websiteService.findWebsitesByUser(this.userId).subscribe(
+          (websites: Website[]) => {
+            this.websites = websites;
+          }
+        );
       }
     );
-
-    this.websites = this.websiteService.findWebsitesByUser(this.userId);
-
   }
 
 

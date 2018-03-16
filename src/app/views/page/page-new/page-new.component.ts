@@ -11,31 +11,28 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class PageNewComponent implements OnInit {
 
-  @ViewChild('f')  pageForm: NgForm;
-  pageName: String;
+
   websiteId: String;
-  title: String;
-  constructor(private pageService: PageService, private activeRoute: ActivatedRoute, private router: Router) { }
+  page: Page;
+  constructor(private pageService: PageService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
-  create() {
-    console.log('success');
-    this.pageName = this.pageForm.value.pagename;
-    this.title = this.pageForm.value.title;
-
-    const page: Page = new Page(this.pageService.pages.length, this.pageName, this.websiteId, this.title);
-    this.pageService.createWebsite(this.websiteId, page);
-    alert('create page successfully');
+  createPage() {
+    this.pageService.createPage(this.websiteId, this.page).subscribe(
+      (page: Page) => {
+        this.page = page;
+        this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+        console.log(this.page);
+      }
+    );
   }
 
 
   ngOnInit() {
-    this.activeRoute.params.subscribe(
+    this.activatedRoute.params.subscribe(
       (params: any) => {
-
-        console.log(params['wid']);
         this.websiteId = params['wid'];
-
       });
+    this.page = this.pageService.dumpPage();
   }
 
 }

@@ -31,6 +31,9 @@ import {WidgetYoutubeComponent} from './views/widget/widget-edit/widget-youtube/
 import {WidgetImageComponent} from './views/widget/widget-edit/widget-image/widget-image.component';
 import {WidgetEditComponent} from './views/widget/widget-edit/widget-edit.component';
 import {WidgetHeaderComponent} from './views/widget/widget-edit/widget-header/widget-header.component';
+import {HttpModule} from '@angular/http';
+
+import { SortableDirective } from '../../assignment/directives/sortable.directive.js';
 
 @NgModule({
   declarations: [
@@ -49,12 +52,14 @@ import {WidgetHeaderComponent} from './views/widget/widget-edit/widget-header/wi
     WidgetYoutubeComponent,
     WidgetImageComponent,
     WidgetHeaderComponent,
-    WidgetEditComponent
+    WidgetEditComponent,
+    SortableDirective,
   ],
   imports: [
     BrowserModule,
     routing,
-    FormsModule
+    FormsModule,
+    HttpModule
   ],
   providers: [UserService, WebsiteService, PageService, WidgetService],
   bootstrap: [AppComponent]

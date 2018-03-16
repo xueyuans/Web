@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {WidgetService} from '../../../../services/widget.service.client';
 import {NgForm} from '@angular/forms';
 import {Widget} from '../../../../models/widget.model.client';
@@ -9,28 +9,41 @@ import {Widget} from '../../../../models/widget.model.client';
   templateUrl: './widget-header.component.html',
   styleUrls: ['./widget-header.component.css']
 })
+
 export class WidgetHeaderComponent implements OnInit {
-  @ViewChild('f') headerForm: NgForm;
   wgid: String;
   pageID: String;
   widget: Widget;
-  constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService) { }
+  constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService, private router: Router) { }
 
   delete() {
-    this.widgetService.deleteWidgetByWidgetId(this.wgid);
+    this.widgetService.deleteWidget(this.wgid).subscribe(
+      (widget: Widget) => {
+        this.widget = widget;
+        alert('delete successfully');
+        this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+      }
+    );
   }
 
   update() {
-    if (this.headerForm.value.headName === '') {
-      alert('Please input header Name');
-    }
-    this.widget.text = this.headerForm.value.text;
-    this.widget.size = this.headerForm.value.size;
     if (this.wgid === undefined) {
       this.widget._id = this.widgetService.widgets.length.toString();
-      this.widgetService.createWidget(this.pageID, this.widget);
+      this.widgetService.createWidget(this.pageID, this.widget).subscribe(
+        (widget: Widget) => {
+          this.widget = widget;
+          this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+          alert('create successfully');
+        }
+      );
     } else {
-      this.widgetService.updateWidget(this.wgid, this.widget);
+      this.widgetService.updateWidget(this.wgid, this.widget).subscribe(
+        (widget: Widget) => {
+          this.widget = widget;
+          this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+          alert('update successfully');
+        }
+      );
     }
   }
   ngOnInit() {
@@ -45,7 +58,11 @@ export class WidgetHeaderComponent implements OnInit {
     if (this.wgid === undefined) {
       this.widget = new Widget('', 'HEADER', this.pageID, '', '', '', '');
     } else {
-      this.widget = this.widgetService.findWidgetById(this.wgid);
+      this.widgetService.findWidgetById(this.wgid).subscribe(
+        (widget: Widget) => {
+          this.widget = widget;
+        }
+      );
     }
   }
 

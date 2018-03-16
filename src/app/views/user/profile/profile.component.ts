@@ -18,9 +18,18 @@ export class ProfileComponent implements OnInit {
     private router: Router) { }
 
   updateUser(user) {
-    this.user = this.userService.updateUser(user);
-    console.log(user);
-    alert('update successfully');
+    // this.activatedRoute.params.subscribe(params => {
+    this.userService.updateUser(this.user._id, user).subscribe(
+      (user1: User) => {
+        this.user = user1;
+        console.log(this.user);
+      }
+    );
+    // });
+  }
+
+  deleteUser() {
+    this.userService.deleteUser(this.user._id).subscribe();
   }
 
   logout() {
@@ -28,9 +37,13 @@ export class ProfileComponent implements OnInit {
   }
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.user = this.userService.findUserById(params['userId']);
+      this.userService.findUserById(params['userId']).subscribe(
+        (user1: User) => {
+          this.user = user1;
+          console.log(this.user);
+        }
+      );
     });
-    console.log(this.user);
   }
 
 }

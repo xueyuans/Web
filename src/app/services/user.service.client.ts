@@ -1,5 +1,8 @@
 import { User } from '../models/user.model.client';
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import 'rxjs/Rx';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
@@ -8,43 +11,52 @@ export class UserService {
     new User('234', 'bob', 'qq'),
     new User('345', 'charlie', 'qq')
   ];
-
+  constructor(private http: Http) {}
+  baseUrl = environment.baseUrl;
   dumpUser() {
     return new User(undefined, undefined, undefined);
   }
 
-  copyUser(user: User) {
-    if (!user) {
-      return undefined;
-    }
-    return new User(user._id, user.username, user.password);
+  hello() {
+    return this.http.get(this.baseUrl + '/api/user/hello');
   }
 
   createUser(user: User) {
-    const createdUser = new User(String(this.users.length + 1), user.username, user.password);
-    this.users.push(createdUser);
-    return this.copyUser(createdUser);
+    return this.http.post(this.baseUrl + '/api/user', user)
+      .map((res: Response) => {
+        return res.json();
+      });
   }
 
   findUserByCredential(username: String, password: String) {
-    return this.users.find( function (user) {
-      return user.username === username && user.password === password;
-    });
+    return this.http.get(this.baseUrl + '/api/user?username=' + username + '&password=' + password)
+      .map((res: Response) => {
+        return res.json();
+      });
   }
 
   findUserById(userId: String) {
-    return this.users.find(function(user) {
-      return user._id === userId;
-    });
+    return this.http.get(this.baseUrl + '/api/user/' + userId)
+      .map((res: Response) => {
+        return res.json();
+      });
   }
 
-  updateUser(user: User) {
-    for (let i = 0; i < this.users.length; i++) {
-      if (this.users[i]._id === user._id) {
-        this.users[i].firstName = user.firstName;
-        this.users[i].lastName = user.lastName;
-        return this.users[i];
-      }
-    }
+  findUserByUsername(username: String) {
+    return this.http.get(this.baseUrl + '/api/user?username=' + username)
+      .map((res: Response) => {
+        return res.json();
+      });
+  }
+
+  updateUser(userId: String, user: User) {
+    return this.http.put(this.baseUrl + '/api/user/' + userId, user)
+      .map((res: Response) => {
+        return res.json();
+      });
+  }
+
+  deleteUser(userId: String) {
+    return this.http.delete(this.baseUrl + '/api/user/' + userId);
   }
 }

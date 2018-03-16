@@ -8,8 +8,8 @@
       </a>
     </div>
     <div class="navbar-text pull-right">
-      <a routerLink=".." class="cl-icon-padding cl-text-black">
-        <button class="glyphicon glyphicon-ok" (click)="f.ngSubmit.emit()" [hidden]="!f.valid" [disabled]="!f.valid">
+      <a class="cl-icon-padding cl-text-black">
+        <button class="glyphicon glyphicon-ok" (click)="update()">
         </button>
       </a>
     </div>
@@ -20,28 +20,25 @@
 </nav>
 
 <div class="container">
-  <form (ngSubmit)="update()" #f="ngForm">
+  <form>
     <div class="form-group">
       <label for="heading-name">Name</label>
-      <input type="text" class="form-control" id="heading-name" placeholder={{widget.widgetType}}
-             ngModel required
+      <input type="text" class="form-control" id="heading-name" ngModel required
              name="headName" #headName="ngModel"/>
     </div>
     <div class="form-group">
       <label for="heading-text">Text</label>
-      <input type="text" class="form-control" id="heading-text" placeholder={{widget.text}}
-             [(ngModel)]="widget.text" required
+      <input type="text" class="form-control" id="heading-text" [(ngModel)]="widget.text" required
              name="text" #text="ngModel"/>
     </div>
     <div class="form-group">
       <label for="heading-size">Size</label>
-      <input type="text" class="form-control" id="heading-size" placeholder={{widget.size}}
-             [(ngModel)]="widget.size" required
+      <input type="text" class="form-control" id="heading-size" [(ngModel)]="widget.size" required
              name="size" #size="ngModel"/>
     </div>
-    <button class="btn btn-danger btn-block" type="button" (click)="delete()" routerLink="..">Delete</button>
   </form>
 </div>
+<button class="btn btn-danger btn-block" (click)="delete()">Delete</button>
 
 
 <nav class="navbar navbar-default navbar-fixed-bottom">

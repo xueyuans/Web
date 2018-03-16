@@ -11,8 +11,6 @@ import {NgForm} from '@angular/forms';
 })
 export class WebsiteEditComponent implements OnInit {
   @ViewChild('f')  webForm: NgForm;
-  webName: String;
-  description: String;
   wid: String;
   userId: String;
   websites: Website[] = [];
@@ -20,34 +18,46 @@ export class WebsiteEditComponent implements OnInit {
   constructor(private websiteService: WebsiteService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   deleteWeb() {
-    this.websiteService.deleteWebsiteById(this.wid);
-    alert('delete successfully');
+    this.websiteService.deleteWebsite(this.website._id).subscribe(
+      (website: Website) => {
+        this.website = website;
+        this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+      }
+    );
   }
 
   updateWeb() {
-    this.webName = this.webForm.value.webname;
-    this.description = this.webForm.value.description;
-    this.websiteService.updateWebsite(this.wid, new Website(this.wid, this.webName, this.userId, this.description));
-    alert('update successfully');
+    this.websiteService.updateWebsite(this.website._id, this.website).subscribe(
+      (website: Website) => {
+        this.website = website;
+        this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+        console.log(this.website);
+      }
+    );
   }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(
       (params: any) => {
-        console.log(params['userId']);
         this.userId = params['userId'];
       }
     );
-    this.websites = this.websiteService.findWebsitesByUser2(this.userId);
-    console.log(this.websites);
-
+    this.websiteService.findWebsitesByUser(this.userId).subscribe(
+      (websites: Website[]) => {
+        this.websites = websites;
+      }
+    );
     this.activatedRoute.params.subscribe(
       (params: any) => {
-      console.log(params['wid']);
       this.wid = params['wid'];
     });
-    this.website = this.websiteService.findWebsitesById(this.wid);
-    console.log(this.website);
+
+    this.websiteService.findWebsiteById(this.wid).subscribe(
+      (website: Website) => {
+        this.website = website;
+        console.log(this.website);
+     }
+    );
   }
 
 

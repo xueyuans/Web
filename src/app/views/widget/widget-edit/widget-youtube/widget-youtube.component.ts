@@ -37,7 +37,11 @@ export class WidgetYoutubeComponent implements OnInit {
   }
 
   delete () {
-    const widget = this.widgetService.deleteWidgetByWidgetId(this.wgid);
+    const widget = this.widgetService.deleteWidget(this.wgid).subscribe(
+      () => {
+        alert('delete successfully');
+      }
+    );
   }
   ngOnInit() {
     this.activatedRoute.params.subscribe(
@@ -55,7 +59,11 @@ export class WidgetYoutubeComponent implements OnInit {
     if (this.wgid === undefined) {
       this.widget = new Widget('', 'YOUTUBE', this.pageID, '', '', '', '');
     } else {
-      this.widget = this.widgetService.findWidgetById(this.wgid);
+      this.widgetService.findWidgetById(this.wgid).subscribe(
+        (widget: Widget) => {
+          this.widget = widget;
+        }
+      );
     }
   }
 }

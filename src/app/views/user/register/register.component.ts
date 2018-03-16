@@ -10,32 +10,23 @@ import {User} from '../../../models/user.model.client';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
-  @ViewChild('f') registerForm: NgForm;
-  username: String;
-  password: String;
-  verifypw: String;
   pwErrorFlag: boolean;
   pwErrorMsg = 'Password should be same';
   userErrorFlag: boolean;
   userErrorMsg = 'Already Exist this userName';
+  verifyPw: String;
   user: User;
   constructor(private userService: UserService, private router: Router) { }
 
   register() {
-    this.username = this.registerForm.value.username;
-    this.password = this.registerForm.value.password;
-    this.verifypw = this.registerForm.value.verifypw;
-    if (this.password !== this.verifypw) {
-      this.pwErrorFlag = true;
-    }
-    if (this.userService.findUserByCredential(this.username, this.password)) {
-      this.userErrorFlag = true;
-    }
-    this.user = new User(this.userService.users.length + 1, this.username, this.password);
-    console.log(this.user);
-    this.userService.createUser(this.user);
-    alert('create successfully');
+    this.user._id = this.userService.users.length.toString();
+    this.userService.createUser(this.user).subscribe(
+      (user: User) => {
+        this.user = user;
+        console.log(this.user);
+        // alert('create successfully');
+      }
+    );
     this.router.navigate(['/profile', this.user._id]);
   }
 

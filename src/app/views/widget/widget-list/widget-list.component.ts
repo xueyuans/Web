@@ -19,6 +19,14 @@ export class WidgetListComponent implements OnInit {
     return this.domSanitizer.bypassSecurityTrustResourceUrl(url.toString());
   }
 
+  reorderWidgets(indexes) {
+    // call widget service function to update widget as per index
+    this.widgetService.reorderWidgets(indexes.startIndex, indexes.endIndex, this.pageID)
+      .subscribe(
+        (data) => console.log(data)
+      );
+  }
+
   ngOnInit() {
     this.activatedRoute.params.subscribe(
       (params: any) => {
@@ -26,7 +34,12 @@ export class WidgetListComponent implements OnInit {
       }
     );
 
-    this.widgets = this.widgetService.findWidgetByPage(this.pageID);
+    this.widgetService.findWidgetsByPageId(this.pageID).subscribe(
+      (widgets: Widget[]) => {
+        this.widgets = widgets;
+        console.log(this.widgets);
+      }
+    );
   }
 
 }
