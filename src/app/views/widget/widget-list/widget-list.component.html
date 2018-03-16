@@ -20,7 +20,7 @@
 </nav>
 
 <div class="container cl-container-padding" appSortable (newIndexes)="reorderWidgets($event)">
-  <div *ngFor="let widget of widgets | orderBy">
+  <div *ngFor="let widget of widgets">
     <div [ngSwitch]="widget.widgetType">
 
       <div *ngSwitchCase="'HEADER'">
