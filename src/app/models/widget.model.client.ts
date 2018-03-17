@@ -6,14 +6,17 @@ export class Widget {
   text: String;
   url: String;
   width: String;
+  formatted: boolean;
 
-  constructor(_id, type, pageId, size = '1', text, width = '100%', url = 'url') {
+  constructor(_id: String, widgetType: String, pageId: String, size = '1' , text: String = 'text', width: String = '100%',
+              url: String = 'url', formatted: boolean = false) {
     this._id = _id;
-    this.widgetType = type;
+    this.widgetType = widgetType;
     this.pageId = pageId;
     this.size = size;
-    this.text = text;
     this.url = url;
     this.width = width;
+    this.text = text;
+    this.formatted = formatted;
   }
 }

@@ -6,14 +6,6 @@ import { environment } from '../../environments/environment.prod';
 
 @Injectable()
 export class WidgetService {
-
-  widgets: Widget[] = [
-    new Widget('123', 'HEADER', '321', '2', 'GIZMODO' ),
-    new Widget('124', 'HEADER', '321', '2', 'GIZMODO' ),
-    new Widget('125', 'IMAGE', '321', '2', 'text', '100%', 'http://lorempixel.com/400/200/'),
-    new Widget('126', 'HTML', '321', '2', '<p>blalbla</p>' ),
-    new Widget('127', 'YOUTUBE', '321', '2', 'text', '100%', '//www.youtube.com/embed/ZpbgzR-2FXo' ),
-  ];
   constructor(private http: Http) { }
 
   baseUrl = environment.baseUrl;

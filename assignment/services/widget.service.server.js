@@ -1,6 +1,6 @@
 module.exports = function (app) {
   var multer = require('multer'); // npm install multer --save
-  var upload = multer({ dest: __dirname + '/../../src/assets/uploads'});
+  var upload = multer({ dest: __dirname + '/../../dist/assets/uploads'});
 
   app.get("/api/widget", findAllWidgets);
   app.post("/api/page/:pageId/widget", createWidget);
@@ -25,7 +25,7 @@ module.exports = function (app) {
     var pageId = req.body.pageId;
 
     if(myFile == null) {
-      res.redirect("http://localhost:4200/profile/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget");
+      res.redirect("/profile/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget");
       return;
     }
 
@@ -36,11 +36,21 @@ module.exports = function (app) {
     var size          = myFile.size;
     var mimetype      = myFile.mimetype;
 
-    var foundWidget = widgets.find(function (widget) {
-      return widget._id === widgetId;
-    });
-    foundWidget.url = "/assets/uploads/" + filename;
-    res.redirect("http://localhost:4200/profile/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
+    if (!widgetId) {
+      console.log("create from server");
+      var tobeCreated = {_id: (WIDGETS.length + 1).toString(), "widgetType": "IMAGE", "pageId": pageId, "size": "2", text: "text", width:"100%",
+        url:"assets/uploads/" + filename};
+      widgetId = tobeCreated._id;
+      WIDGETS.push(tobeCreated);
+      console.log(tobeCreated);
+    } else {
+      var foundWidget = WIDGETS.find(function (widget) {
+        return widget._id === widgetId;
+      });
+      foundWidget.url = "assets/uploads/" + filename;
+    }
+
+    res.redirect("/profile/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId);
   }
 
   function reorderWidgets(req,res) {
@@ -71,6 +81,7 @@ module.exports = function (app) {
   function createWidget(req, res) {
     var pageId = req.params['pageId'];
     var newWidget = req.body;
+    newWidget._id = WIDGETS.length.toString();
     newWidget.pageId = pageId;
     WIDGETS.push(newWidget);
     var widgets = getWidgetForPage(pageId);

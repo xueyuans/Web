@@ -17,6 +17,8 @@ import {WidgetEditComponent} from './views/widget/widget-edit/widget-edit.compon
 import {WidgetHeaderComponent} from './views/widget/widget-edit/widget-header/widget-header.component';
 import {WidgetImageComponent} from './views/widget/widget-edit/widget-image/widget-image.component';
 import {WidgetYoutubeComponent} from './views/widget/widget-edit/widget-youtube/widget-youtube.component';
+import {WidgetTextComponent} from './views/widget/widget-edit/widget-text/widget-text.component';
+import {WidgetHtmlComponent} from './views/widget/widget-edit/widget-html/widget-html.component';
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -33,6 +35,8 @@ const appRoutes: Routes = [
   {path: 'profile/:userId/website/:wid/page/:pid/widget/header', component: WidgetHeaderComponent},
   {path: 'profile/:userId/website/:wid/page/:pid/widget/image', component: WidgetImageComponent},
   {path: 'profile/:userId/website/:wid/page/:pid/widget/youtube', component: WidgetYoutubeComponent},
+  {path: 'profile/:userId/website/:wid/page/:pid/widget/text', component: WidgetTextComponent},
+  {path: 'profile/:userId/website/:wid/page/:pid/widget/html', component: WidgetHtmlComponent},
   {path: 'profile/:userId/website/:wid/page/:pid/widget/:wgid', component: WidgetEditComponent},
 ];
 

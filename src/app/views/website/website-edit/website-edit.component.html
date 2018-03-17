@@ -26,9 +26,6 @@
         </a>
         <a (click)="updateWeb()" class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
           <span class="glyphicon glyphicon-ok"></span></a>
-        <a class="navbar-link navbar-text pull-right cl-text-white cl-icon-padding">
-          <span class="glyphicon glyphicon-ok" (click)="updateWeb()" routerLink="../"></span>
-        </a>
       </div>
     </div>
   </div>
@@ -36,7 +33,7 @@
 
 
 <div class="container-fluid">
-  <div class="col-xs-4 hidden-xs">
+  <div class="col-xs-4 hidden-xs" *ngIf = "websites">
     <ul class="list-group cl-list-group-borderless">
       <li *ngFor = "let websiteLi of websites" class="list-group-item cl-list-item-borderless">
         <a routerLink="../{{websiteLi._id}}"><span class="glyphicon glyphicon-cog pull-right"></span></a>
@@ -44,7 +41,7 @@
       </li>
     </ul>
   </div>
-  <div class="col-xs-12 col-sm-8">
+  <div class="col-xs-12 col-sm-8" *ngIf="website">
     <form>
       <div class="form-group">
         <label for="website-name">Website Name</label>

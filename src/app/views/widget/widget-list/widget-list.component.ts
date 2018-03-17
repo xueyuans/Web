@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import {Widget} from '../../../models/widget.model.client';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {WidgetService} from '../../../services/widget.service.client';
+import {Widget} from '../../../models/widget.model.client';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
@@ -11,35 +11,45 @@ import {DomSanitizer} from '@angular/platform-browser';
 })
 export class WidgetListComponent implements OnInit {
 
-  widgets: Widget[] = [];
-  pageID: String;
-  constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService,  private domSanitizer: DomSanitizer) { }
+  // @ViewChild(SortableDirective) srtDir;
+  widgets: Widget[];
+  widget = Widget;
+  websiteId: string;
+  pageId: string;
 
-  getURL(url: String) {
-    return this.domSanitizer.bypassSecurityTrustResourceUrl(url.toString());
+  constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService, private domSanitizer: DomSanitizer) { }
+
+  ngOnInit() {
+
+    // fetch userId, pageId and websiteId from url
+    this.activatedRoute.params
+      .subscribe(
+        (params: any) => {
+          this.websiteId = params['wid'];
+          this.pageId = params['pid'];
+        }
+      );
+
+    // fetching list of widgets using widget service
+    this.widgetService.findWidgetsByPageId(this.pageId)
+      .subscribe(
+        (data: any) => {
+          this.widgets = data;
+          console.log(this.widgets);
+        }
+      );
   }
 
+  // receiving the emitted event
   reorderWidgets(indexes) {
     // call widget service function to update widget as per index
-    this.widgetService.reorderWidgets(indexes.startIndex, indexes.endIndex, this.pageID)
+    this.widgetService.reorderWidgets(indexes.startIndex, indexes.endIndex, this.pageId)
       .subscribe(
         (data) => console.log(data)
       );
   }
 
-  ngOnInit() {
-    this.activatedRoute.params.subscribe(
-      (params: any) => {
-        this.pageID = params['pid'];
-      }
-    );
-
-    this.widgetService.findWidgetsByPageId(this.pageID).subscribe(
-      (widgets: Widget[]) => {
-        this.widgets = widgets;
-        console.log(this.widgets);
-      }
-    );
+  getURL(url: String) {
+    return this.domSanitizer.bypassSecurityTrustResourceUrl(url.toString());
   }
-
 }

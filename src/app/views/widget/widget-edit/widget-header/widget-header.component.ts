@@ -28,7 +28,6 @@ export class WidgetHeaderComponent implements OnInit {
 
   update() {
     if (this.wgid === undefined) {
-      this.widget._id = this.widgetService.widgets.length.toString();
       this.widgetService.createWidget(this.pageID, this.widget).subscribe(
         (widget: Widget) => {
           this.widget = widget;

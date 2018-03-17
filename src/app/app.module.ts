@@ -33,7 +33,10 @@ import {WidgetEditComponent} from './views/widget/widget-edit/widget-edit.compon
 import {WidgetHeaderComponent} from './views/widget/widget-edit/widget-header/widget-header.component';
 import {HttpModule} from '@angular/http';
 
-import { SortableDirective } from '../../assignment/directives/sortable.directive.js';
+import {WidgetTextComponent} from './views/widget/widget-edit/widget-text/widget-text.component';
+import {WidgetHtmlComponent} from './views/widget/widget-edit/widget-html/widget-html.component';
+import {QuillEditorModule} from 'ngx-quill-editor/quillEditor.module';
+import {SortableDirective} from './views/widget/widget-list/sortable.directive';
 
 @NgModule({
   declarations: [
@@ -53,13 +56,16 @@ import { SortableDirective } from '../../assignment/directives/sortable.directiv
     WidgetImageComponent,
     WidgetHeaderComponent,
     WidgetEditComponent,
+    WidgetTextComponent,
+    WidgetHtmlComponent,
     SortableDirective,
   ],
   imports: [
     BrowserModule,
     routing,
     FormsModule,
-    HttpModule
+    HttpModule,
+    QuillEditorModule
   ],
   providers: [UserService, WebsiteService, PageService, WidgetService],
   bootstrap: [AppComponent]
