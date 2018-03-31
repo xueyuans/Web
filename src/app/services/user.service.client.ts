@@ -1,27 +1,43 @@
-import { User } from '../models/user.model.client';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import {Http, RequestOptions, Response} from '@angular/http';
 import 'rxjs/Rx';
 import { environment } from '../../environments/environment.prod';
+import {Router} from '@angular/router';
+import {SharedService} from './shared.service';
 
 @Injectable()
 export class UserService {
-  users: User[] = [
-    new User('123', 'alice', 'qq'),
-    new User('234', 'bob', 'qq'),
-    new User('345', 'charlie', 'qq')
-  ];
-  constructor(private http: Http) {}
+
+  constructor(private http: Http, private router: Router, private sharedService: SharedService) {}
+
   baseUrl = environment.baseUrl;
-  dumpUser() {
-    return new User(undefined, undefined, undefined);
+
+  options = new RequestOptions();
+
+  loggedIn() {
+    this.options.withCredentials = true;
+    return this.http.post(this.baseUrl + '/api/loggedIn', '', this.options)
+      .map(
+        (res: Response) => {
+          const user = res.json();
+          if (user !== '0') {
+            this.sharedService.user = user; // setting user as global variable using shared service
+            return true;
+          } else {
+            this.router.navigate(['/login']);
+            return false;
+          }
+        }
+      );
   }
+
+
 
   hello() {
     return this.http.get(this.baseUrl + '/api/user/hello');
   }
 
-  createUser(user: User) {
+  createUser(user) {
     return this.http.post(this.baseUrl + '/api/user', user)
       .map((res: Response) => {
         return res.json();
@@ -31,28 +47,33 @@ export class UserService {
   findUserByCredential(username: String, password: String) {
     return this.http.get(this.baseUrl + '/api/user?username=' + username + '&password=' + password)
       .map((res: Response) => {
-        return res.json();
+        const data = res.json();
+        return data;
       });
   }
 
   findUserById(userId: String) {
     return this.http.get(this.baseUrl + '/api/user/' + userId)
       .map((res: Response) => {
-        return res.json();
+        const data = res.json();
+        return data;
       });
   }
 
   findUserByUsername(username: String) {
     return this.http.get(this.baseUrl + '/api/user?username=' + username)
       .map((res: Response) => {
-        return res.json();
+        const data = res.json();
+        return data;
       });
   }
 
-  updateUser(userId: String, user: User) {
-    return this.http.put(this.baseUrl + '/api/user/' + userId, user)
-      .map((res: Response) => {
-        return res.json();
+  updateUser(userId: String, user) {
+    const url = this.baseUrl + '/api/user/' + userId;
+    return this.http.put(url, user)
+      .map(
+        (res: Response) => {
+        return 'update';
       });
   }
 

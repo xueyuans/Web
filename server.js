@@ -8,6 +8,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'dist')));
 
+// var connectionString = 'mongodb://127.0.0.1:27017/webmaker';
+// /*var connectionString = 'mongodb://heroku-url';*/
+// var mongoose = require("mongoose");
+// mongoose.createConnection( connectionString);
 //CORS
 app.use(function(reg, res, next){
   res.header("Access-Control-Allow-Origin", "*");
@@ -35,7 +39,6 @@ require("./assignment/app")(app);
 
 app.get('*', function (req, res) {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
-//res.sendFile(path.join(__dirname, '/src/index.html'));
 });
 
 server.listen( port , function() {

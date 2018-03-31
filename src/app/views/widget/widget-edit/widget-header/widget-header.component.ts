@@ -1,8 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WidgetService} from '../../../../services/widget.service.client';
-import {NgForm} from '@angular/forms';
-import {Widget} from '../../../../models/widget.model.client';
 
 @Component({
   selector: 'app-widget-header',
@@ -12,14 +10,16 @@ import {Widget} from '../../../../models/widget.model.client';
 
 export class WidgetHeaderComponent implements OnInit {
   wgid: String;
-  pageID: String;
-  widget: Widget;
+  pageID: string;
+  widgets: any[];
+  widget = {name: '', widgetType: 'HEADER', pageId: '', text: '', size: '', position: undefined};
   constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService, private router: Router) { }
 
   delete() {
     this.widgetService.deleteWidget(this.wgid).subscribe(
-      (widget: Widget) => {
+      (widget: any) => {
         this.widget = widget;
+        console.log(this.widget);
         alert('delete successfully');
         this.router.navigate(['../'], {relativeTo: this.activatedRoute});
       }
@@ -28,8 +28,9 @@ export class WidgetHeaderComponent implements OnInit {
 
   update() {
     if (this.wgid === undefined) {
+      this.widget.position = this.widgets.length;
       this.widgetService.createWidget(this.pageID, this.widget).subscribe(
-        (widget: Widget) => {
+        (widget: any) => {
           this.widget = widget;
           this.router.navigate(['../'], {relativeTo: this.activatedRoute});
           alert('create successfully');
@@ -37,7 +38,7 @@ export class WidgetHeaderComponent implements OnInit {
       );
     } else {
       this.widgetService.updateWidget(this.wgid, this.widget).subscribe(
-        (widget: Widget) => {
+        (widget: any) => {
           this.widget = widget;
           this.router.navigate(['../'], {relativeTo: this.activatedRoute});
           alert('update successfully');
@@ -49,20 +50,28 @@ export class WidgetHeaderComponent implements OnInit {
     this.activatedRoute.params.subscribe(
       (params: any) => {
         this.pageID = params['pid'];
+        this.widgetService.findWidgetsByPageId(this.pageID).subscribe(
+          (widgets: any[]) => {
+            this.widgets = widgets;
+            console.log(this.widgets);
+          }
+        );
       }
     );
     this.activatedRoute.params.subscribe(params => {
       this.wgid = params['wgid'];
     });
     if (this.wgid === undefined) {
-      this.widget = new Widget('', 'HEADER', this.pageID, '', '', '', '');
+      this.widget.pageId = this.pageID;
+      this.widget.widgetType = 'HEADER';
     } else {
       this.widgetService.findWidgetById(this.wgid).subscribe(
-        (widget: Widget) => {
+        (widget: any) => {
           this.widget = widget;
         }
       );
     }
+
   }
 
 

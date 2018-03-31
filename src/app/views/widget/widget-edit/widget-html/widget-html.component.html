@@ -5,7 +5,7 @@
   <div class="container-fluid">
     <!--Left arrow-->
     <p class="navbar-text pull-left">
-      <a [routerLink]="['/user', 'website', websiteId, 'page', pageId, 'widget']" class="navbar-link">
+      <a [routerLink]="['/profile', userId, 'website', websiteId, 'page', pageID, 'widget']" class="navbar-link">
         <span class="glyphicon glyphicon-chevron-left"></span>
       </a>
     </p>
@@ -36,17 +36,17 @@
   <form novalidate name="model.myform">
     <div class="form-group">
       <label for="Name">Name</label>
-      <input [(ngModel)]="widget.name"
+      <input ngModel
              type="text"
              class="form-control"
              id="Name"
              name="widname"
              placeholder="Name"
-             required>
+             required #widname="ngModel">
       <span class="alert-class"
             *ngIf="flag">{{alert}}</span>
     </div>
-    <!--<div ng-model="model.widget.text"-->
+    <!--<div ng-models="models.widget.text"-->
          <!--text-angular-->
          <!--ta-toolbar="[['h1','h2','h3'],['bold','italics','underline','strikeThrough'],-->
         <!--['ul','ol'],['justifyLeft','justifyCenter','justifyRight','justifyFull'],-->

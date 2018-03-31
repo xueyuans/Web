@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../../../services/user.service.client';
-import {User} from '../../../models/user.model.client';
 
 
 @Component({
@@ -11,21 +10,20 @@ import {User} from '../../../models/user.model.client';
 })
 export class ProfileComponent implements OnInit {
 
-  user: User;
+  user = {_id: '', username: '', password: '', firstname: '', lastname: ''};
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router) { }
 
-  updateUser(user) {
-    // this.activatedRoute.params.subscribe(params => {
-    this.userService.updateUser(this.user._id, user).subscribe(
-      (user1: User) => {
-        this.user = user1;
-        console.log(this.user);
+  updateUser() {
+
+    this.userService.updateUser(this.user._id, this.user).subscribe(
+      (user: any) => {
+        alert('update successfully');
       }
     );
-    // });
+
   }
 
   deleteUser() {
@@ -38,8 +36,8 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.userService.findUserById(params['userId']).subscribe(
-        (user1: User) => {
-          this.user = user1;
+        (data: any) => {
+          this.user = data;
           console.log(this.user);
         }
       );

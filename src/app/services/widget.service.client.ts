@@ -1,4 +1,3 @@
-import { Widget } from '../models/widget.model.client';
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import 'rxjs/Rx';
@@ -11,19 +10,24 @@ export class WidgetService {
   baseUrl = environment.baseUrl;
 
   reorderWidgets(startIndex, endIndex, pageId) {
-    return this.http.put(this.baseUrl + '/api/page/' + pageId + '/widget?start=' + startIndex + '&end=' + endIndex, '')
+    const url = this.baseUrl + '/api/page/' + pageId + '/widget?start=' + startIndex + '&end=' + endIndex;
+    return this.http.put(url, '')
       .map(
         (res: Response) => {
-          return res.json();
+          const data = res;
+          return data;
         }
       );
   }
 
-  createWidget(pageId: String, widget: Widget) {
-    return this.http.post(this.baseUrl + '/api/page/' + pageId + '/widget', widget)
-      .map((res: Response) => {
-        return res.json();
-      });
+  createWidget(pageId: String, widget) {
+    const url = this.baseUrl + '/api/page/' + pageId + '/widget';
+    return this.http.post(url, widget)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        });
   }
 
   findWidgetsByPageId(pageId: String) {
@@ -39,18 +43,26 @@ export class WidgetService {
       });
   }
 
-  updateWidget(widgetId: String, widget: Widget) {
-    return this.http.put(this.baseUrl + '/api/widget/' + widgetId, widget)
-      .map((res: Response) => {
-        return res.json();
-      });
+  updateWidget(widgetId: String, widget) {
+    const url = this.baseUrl + '/api/widget/' + widgetId;
+    return this.http.put(url, widget)
+      .map(
+        (res: Response) => {
+          const data = res;
+          return data;
+        }
+      );
   }
 
   deleteWidget(widgetId: String) {
-    return this.http.delete(this.baseUrl + '/api/widget/' + widgetId)
-      .map((res: Response) => {
-        return res.json();
-      });
+    const url = this.baseUrl + '/api/widget/' + widgetId;
+    return this.http.delete(url)
+      .map(
+        (res: Response) => {
+          const data = res;
+          return data;
+        }
+      );
   }
 
 }

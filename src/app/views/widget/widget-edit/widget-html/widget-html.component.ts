@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {WidgetService} from '../../../../services/widget.service.client';
-import {Widget} from '../../../../models/widget.model.client';
 
 @Component({
   selector: 'app-widget-html',
@@ -11,13 +10,16 @@ import {Widget} from '../../../../models/widget.model.client';
 export class WidgetHtmlComponent implements OnInit {
 
   wgid: String;
-  pageID: String;
-  widget: Widget;
+  pageID: string;
+  widget = {name: '', widgetType: '', pageId: '', text: '', size: '', position: undefined};
+  websiteId: String;
+  userId: String;
+  widgets: any[];
   constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService, private router: Router) { }
 
   delete() {
     this.widgetService.deleteWidget(this.wgid).subscribe(
-      (widget: Widget) => {
+      (widget: any) => {
         this.widget = widget;
         alert('delete successfully');
         this.router.navigate(['../'], {relativeTo: this.activatedRoute});
@@ -27,8 +29,9 @@ export class WidgetHtmlComponent implements OnInit {
 
   update() {
     if (this.wgid === undefined) {
+      this.widget.position = this.widgets.length;
       this.widgetService.createWidget(this.pageID, this.widget).subscribe(
-        (widget: Widget) => {
+        (widget: any) => {
           this.widget = widget;
           this.router.navigate(['../'], {relativeTo: this.activatedRoute});
           alert('create successfully');
@@ -36,7 +39,7 @@ export class WidgetHtmlComponent implements OnInit {
       );
     } else {
       this.widgetService.updateWidget(this.wgid, this.widget).subscribe(
-        (widget: Widget) => {
+        (widget: any) => {
           this.widget = widget;
           this.router.navigate(['../'], {relativeTo: this.activatedRoute});
           alert('update successfully');
@@ -48,16 +51,25 @@ export class WidgetHtmlComponent implements OnInit {
     this.activatedRoute.params.subscribe(
       (params: any) => {
         this.pageID = params['pid'];
+        this.websiteId = params['wid'];
+        this.userId = params['userId'];
+        this.widgetService.findWidgetsByPageId(this.pageID).subscribe(
+          (widgets: any[]) => {
+            this.widgets = widgets;
+            console.log(this.widgets);
+          }
+        );
       }
     );
     this.activatedRoute.params.subscribe(params => {
       this.wgid = params['wgid'];
     });
     if (this.wgid === undefined) {
-      this.widget = new Widget('', 'HTML', this.pageID, '', '', '', '');
+      this.widget.pageId = this.pageID;
+      this.widget.widgetType = 'HTML';
     } else {
       this.widgetService.findWidgetById(this.wgid).subscribe(
-        (widget: Widget) => {
+        (widget: any) => {
           this.widget = widget;
         }
       );

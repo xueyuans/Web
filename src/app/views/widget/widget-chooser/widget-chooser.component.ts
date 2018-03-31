@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Widget} from '../../../models/widget.model.client';
 import {ActivatedRoute} from '@angular/router';
 import {WidgetService} from '../../../services/widget.service.client';
 

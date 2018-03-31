@@ -1,8 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {WidgetService} from '../../../../services/widget.service.client';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
-import {Widget} from '../../../../models/widget.model.client';
 
 @Component({
   selector: 'app-widget-youtube',
@@ -10,28 +9,30 @@ import {Widget} from '../../../../models/widget.model.client';
   styleUrls: ['./widget-youtube.component.css']
 })
 export class WidgetYoutubeComponent implements OnInit {
-
-  @ViewChild('f') youtubeForm: NgForm;
-  pageID: String;
+  pageID: string;
   wgid: String;
-  width: String;
-  name: String;
-  text: String;
-  url: String;
-  widget: Widget;
-  constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService) { }
+  widgets: any[];
+  widget = {_id: undefined, name: '', widgetType: '', pageId: '', width: '', url: '', text: '', position: undefined};
+  constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService, private router: Router) { }
 
   update () {
-    if (this.youtubeForm.value.headName === '') {
-      alert('Please input header Name');
-    }
-    this.widget.url = this.youtubeForm.value.url;
-    this.widget.text = this.youtubeForm.value.text;
-    this.widget.width = this.youtubeForm.value.width;
     if (this.wgid === undefined) {
-      this.widgetService.createWidget(this.pageID, this.widget);
+      this.widget.position = this.widgets.length;
+      this.widgetService.createWidget(this.pageID, this.widget).subscribe(
+        (widget: any) => {
+          this.widget = widget;
+          this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+          alert('create successfully');
+        }
+      );
     } else {
-      this.widgetService.updateWidget(this.wgid, this.widget);
+      this.widgetService.updateWidget(this.wgid, this.widget).subscribe(
+        (widget: any) => {
+          this.widget = widget;
+          this.router.navigate(['../'], {relativeTo: this.activatedRoute});
+          alert('update successfully');
+        }
+      );
     }
   }
 
@@ -39,6 +40,7 @@ export class WidgetYoutubeComponent implements OnInit {
     const widget = this.widgetService.deleteWidget(this.wgid).subscribe(
       () => {
         alert('delete successfully');
+        this.router.navigate(['../'], {relativeTo: this.activatedRoute});
       }
     );
   }
@@ -47,6 +49,12 @@ export class WidgetYoutubeComponent implements OnInit {
       (params: any) => {
         console.log(params['pid']);
         this.pageID = params['pid'];
+        this.widgetService.findWidgetsByPageId(this.pageID).subscribe(
+          (widgets: any[]) => {
+            this.widgets = widgets;
+            console.log(this.widgets);
+          }
+        );
       }
     );
 
@@ -56,10 +64,11 @@ export class WidgetYoutubeComponent implements OnInit {
     });
 
     if (this.wgid === undefined) {
-      this.widget = new Widget('', 'YOUTUBE', this.pageID, '', '', '', '');
+      this.widget.widgetType = 'YOUTUBE';
+      this.widget.pageId = this.pageID;
     } else {
       this.widgetService.findWidgetById(this.wgid).subscribe(
-        (widget: Widget) => {
+        (widget: any) => {
           this.widget = widget;
         }
       );

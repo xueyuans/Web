@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
 import {UserService} from '../../../services/user.service.client';
-import {User} from '../../../models/user.model.client';
 
 @Component({
   selector: 'app-register',
@@ -15,19 +14,18 @@ export class RegisterComponent implements OnInit {
   userErrorFlag: boolean;
   userErrorMsg = 'Already Exist this userName';
   verifyPw: String;
-  user: User;
+  user = {_id: undefined, username: '', password: '', firstname: '', lastname: ''};
   constructor(private userService: UserService, private router: Router) { }
 
   register() {
-    this.user._id = this.userService.users.length.toString();
     this.userService.createUser(this.user).subscribe(
-      (user: User) => {
+      (user: any) => {
         this.user = user;
-        console.log(this.user);
-        // alert('create successfully');
+        this.user._id = user._id;
+        console.log(this.user._id);
+        this.router.navigate(['/profile/' + this.user._id]);
       }
     );
-    this.router.navigate(['/profile', this.user._id]);
   }
 
   login() {
@@ -35,7 +33,6 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.user = this.userService.dumpUser();
   }
 
 }

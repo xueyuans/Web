@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {WidgetService} from '../../../services/widget.service.client';
-import {Widget} from '../../../models/widget.model.client';
 import {DomSanitizer} from '@angular/platform-browser';
 
 @Component({
@@ -12,8 +11,8 @@ import {DomSanitizer} from '@angular/platform-browser';
 export class WidgetListComponent implements OnInit {
 
   // @ViewChild(SortableDirective) srtDir;
-  widgets: Widget[];
-  widget = Widget;
+  widgets = [{_id: undefined, name: '', widgetType: '', pageId: '', text: '', size: undefined, url: undefined,
+    formatted: undefined, rows: undefined, placeholder: undefined}];
   websiteId: string;
   pageId: string;
 
@@ -45,7 +44,10 @@ export class WidgetListComponent implements OnInit {
     // call widget service function to update widget as per index
     this.widgetService.reorderWidgets(indexes.startIndex, indexes.endIndex, this.pageId)
       .subscribe(
-        (data) => console.log(data)
+        (data) => {
+          console.log('thanks');
+          console.log(data);
+        }
       );
   }
 

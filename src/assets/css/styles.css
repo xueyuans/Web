@@ -101,3 +101,24 @@ a:hover{
   z-index: 100;
   position: relative;
 }
+
+.youtube-widget {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+}
+
+.youtube-widget iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  height: 100%;
+}
+
+.alert-class{
+  color: red;
+  font-size: x-small;
+  font-style: italic
+;
+}

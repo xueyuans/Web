@@ -19,6 +19,8 @@ import {WidgetImageComponent} from './views/widget/widget-edit/widget-image/widg
 import {WidgetYoutubeComponent} from './views/widget/widget-edit/widget-youtube/widget-youtube.component';
 import {WidgetTextComponent} from './views/widget/widget-edit/widget-text/widget-text.component';
 import {WidgetHtmlComponent} from './views/widget/widget-edit/widget-html/widget-html.component';
+import {FlickrImageSearchComponent} from './views/widget/widget-edit/widget-image/flickr-image-search/flickr-image-search.component';
+
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
@@ -38,6 +40,7 @@ const appRoutes: Routes = [
   {path: 'profile/:userId/website/:wid/page/:pid/widget/text', component: WidgetTextComponent},
   {path: 'profile/:userId/website/:wid/page/:pid/widget/html', component: WidgetHtmlComponent},
   {path: 'profile/:userId/website/:wid/page/:pid/widget/:wgid', component: WidgetEditComponent},
+  {path: 'profile/:userId/website/:wid/page/:pid/widget/:wgid/flickr', component: FlickrImageSearchComponent}
 ];
 
 export const routing = RouterModule.forRoot(appRoutes);

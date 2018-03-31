@@ -37,6 +37,14 @@ import {WidgetTextComponent} from './views/widget/widget-edit/widget-text/widget
 import {WidgetHtmlComponent} from './views/widget/widget-edit/widget-html/widget-html.component';
 import {QuillEditorModule} from 'ngx-quill-editor/quillEditor.module';
 import {SortableDirective} from './views/widget/widget-list/sortable.directive';
+import { FlickrImageSearchComponent } from './views/widget/widget-edit/widget-image/flickr-image-search/flickr-image-search.component';
+import {FlickrService} from './services/flickr.service.client';
+import {SharedService} from './services/shared.service';
+// import {AuthGuard} from './services/auth-gaurd.service';
+import {ToUpperCasePipe} from './pipes/to-upper-case.pipe';
+import {OrderByPipe} from './views/widget/widget-list/order-by-pipe.pipe';
+import {SafePipe} from './views/widget/widget-list/safe-pipe.pipe';
+import { Location, LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -59,6 +67,10 @@ import {SortableDirective} from './views/widget/widget-list/sortable.directive';
     WidgetTextComponent,
     WidgetHtmlComponent,
     SortableDirective,
+    OrderByPipe,
+    SafePipe,
+    FlickrImageSearchComponent,
+    ToUpperCasePipe,
   ],
   imports: [
     BrowserModule,
@@ -67,7 +79,8 @@ import {SortableDirective} from './views/widget/widget-list/sortable.directive';
     HttpModule,
     QuillEditorModule
   ],
-  providers: [UserService, WebsiteService, PageService, WidgetService],
+  providers: [UserService, WebsiteService, PageService, WidgetService, SharedService, FlickrService,
+    { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

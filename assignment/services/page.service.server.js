@@ -1,79 +1,84 @@
 module.exports = function(app){
 
-
+  var pageModel = require("../models/page/page.model.server");
   app.post("/api/website/:websiteId/page", createPage);
-  app.get("/api/website/:websiteId/page", findPageForWebsite);
-  app.get("/api/page/:pageId", findPageById);
-  app.put("/api/page/:pageId", updatePageById);
-  app.delete("/api/page/:pageId", deletePage);
+  app.get("/api/website/:websiteId/page",findAllPagesForWebsite);
+  app.get("/api/page/:pageId",findPageById);
+  app.put("/api/page/:pageId",updatePage);
+  app.delete("/api/page/:pageId",deletePage);
 
-  var Pages = [
-    { '_id': '321', 'name': 'page321', 'websiteId': '321', 'title': "Lorem" },
-    { '_id': '111', 'name': 'page111', 'websiteId': '111', 'title': 'Lorem' },
-    { '_id': '222', 'name': 'page222', 'websiteId': '222', 'title': 'Lorem' },
-    { '_id': '333', 'name': 'page333', 'websiteId': '333', 'title': 'Lorem' },
-    { '_id': '432', 'name': 'page432', 'websiteId': '432', 'title': 'Lorem' }
-  ];
+  /* pattern matching usies only base URL. it ignores anything after ?
+   app.get("/api/user/:userId", findUserById);
+   app.get("/api/user/:userId", findUserById);
+   are the same URLs to Express!     */
 
-  function updatePageById(req, res){
-    var pageId = req.params['pageId'];
-    var newPage = req.body;
-    for(var i = 0; i < Pages.length; i++) {
-      if (Pages[i]._id === pageId) {
-        Pages[i] = newPage;
-        break;
-      }
-    }
-    res.json(newPage);
-  }
-
-  function findPageById(req, res){
-    var pageId = req.params['pageId'];
-    res.json(getPageById(pageId));
-  }
-
-  function deletePage(req, res){
-    var pageId = req.params['pageId'];
-    for(var i = 0; i < Pages.length; i++) {
-      if (Pages[i]._id === pageId) {
-        var page = Pages[i];
-        Pages.splice(i, 1);
-        return res.json(page);
-      }
-    }
-  }
-
-  function createPage(req, res){
-    var websiteId = req.params['websiteId'];
+  function createPage(req, res) {
+    var websiteId = req.params.websiteId;
     var page = req.body;
-    page._id = Pages.length.toString();
-    page.websiteId = websiteId;
-    Pages.push(page);
-    res.json(page);
+    page._website= websiteId;
+    console.log(page);
+    pageModel
+      .createPage(websiteId, page)
+      .then(function (page) {
+        res.json(page);});
   }
 
-  function findPageForWebsite(req, res) {
-    var websiteId = req.params['websiteId'];
-    var pages= getPagesForWebsiteId(websiteId);
-    res.json(pages);
+  function findAllPagesForWebsite(req,res) {
+    var websiteId = req.params.websiteId;
+
+    pageModel
+      .findAllPagesForWebsite(websiteId)
+      .then(function (pages) {
+          res.json(pages);
+        },
+        function (err) {
+          res.sendStatus(404).send(err);
+        });
+  }
+  function updatePage(req,res) {
+    var pageId = req.params.pageId;
+    var page = req.body;
+
+    pageModel
+      .updatePage(pageId, page)
+      .then(function (stats) {
+          console.log(stats);
+          res.send(200);
+        },
+        function (err) {
+          res.sendStatus(404).send(err);
+        });
+  }
+  function findPageById(req,res ) {
+    var pageId = req.params.pageId;
+    pageModel
+      .findPageById(pageId)
+      .then(function (page) {
+          res.json(page);
+        },
+        function (err) {
+          res.sendStatus(404).send(err);
+        });
   }
 
-  function  getPagesForWebsiteId(websiteId) {
-    var pages=[];
-    for(var i = 0; i < Pages.length; i++) {
-      if (Pages[i].websiteId === websiteId) {
-        pages.push(Pages[i]);
-      }
-    }
-    return pages;
-  }
-
-  function getPageById(pageId){
-    for(var i = 0; i < Pages.length; i++) {
-      if (Pages[i]._id === pageId) {
-        return Pages[i];
-      }
-    }
+  function deletePage(req,res) {
+    var pageId = req.params.pageId;
+    pageModel
+      .deletePage(pageId)
+      .then (function (stats) {
+          console.log(stats);
+          res.send(200);
+        },
+        function (err) {
+          res.sendStatus(404).send(err);
+        });
+    // for (var i in pages){
+    //     if (pages[i]._id === pageId){
+    //         pages.splice(i,1);
+    //         res.send(200);
+    //     }
+    // }
+    // res.send(400);
   }
 }
 

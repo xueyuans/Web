@@ -1,5 +1,4 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Website} from '../../../models/website.model.client';
 import {WebsiteService} from '../../../services/website.service.client';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgForm} from '@angular/forms';
@@ -13,13 +12,13 @@ export class WebsiteEditComponent implements OnInit {
   @ViewChild('f')  webForm: NgForm;
   wid: String;
   userId: String;
-  websites: Website[] = [];
-  website: Website;
+  websites = [{_id: '', name: '', description: ''}];
+  website: {_id: '', name: '', description: ''};
   constructor(private websiteService: WebsiteService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   deleteWeb() {
     this.websiteService.deleteWebsite(this.website._id).subscribe(
-      (website: Website) => {
+      (website: any) => {
         this.website = website;
         this.router.navigate(['../'], {relativeTo: this.activatedRoute});
       }
@@ -28,7 +27,7 @@ export class WebsiteEditComponent implements OnInit {
 
   updateWeb() {
     this.websiteService.updateWebsite(this.website._id, this.website).subscribe(
-      (website: Website) => {
+      (website: any) => {
         this.website = website;
         this.router.navigate(['../'], {relativeTo: this.activatedRoute});
         console.log(this.website);
@@ -43,7 +42,7 @@ export class WebsiteEditComponent implements OnInit {
       }
     );
     this.websiteService.findWebsitesByUser(this.userId).subscribe(
-      (websites: Website[]) => {
+      (websites) => {
         this.websites = websites;
       }
     );
@@ -53,7 +52,7 @@ export class WebsiteEditComponent implements OnInit {
     });
 
     this.websiteService.findWebsiteById(this.wid).subscribe(
-      (website: Website) => {
+      (website: any) => {
         this.website = website;
         console.log(this.website);
      }

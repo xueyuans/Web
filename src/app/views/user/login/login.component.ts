@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router} from '@angular/router';
 import {UserService} from '../../../services/user.service.client';
-import {User} from '../../../models/user.model.client';
 import {NgForm} from '@angular/forms';
 import { ViewChild } from '@angular/core';
 
@@ -26,7 +25,7 @@ export class LoginComponent implements OnInit {
     this.username = this.loginForm.value.username;
     this.password = this.loginForm.value.password;
     this.userService.findUserByCredential(this.username, this.password)
-      .subscribe((user: User) => {
+      .subscribe((user: any) => {
         if (user) {
           console.log(user);
           this.errorFlag = false;
