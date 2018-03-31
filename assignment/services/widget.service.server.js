@@ -56,7 +56,7 @@ module.exports = function (app) {
       foundWidget.url = "assets/uploads/" + filename;
       widgetModel.updateWidget(widgetId, foundWidget);
     }
-    const jumpurl = "https://xueyuan.herokuapp.com/#/profile/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId;
+    const jumpurl = "https://xueyuan.herokuapp.com/#/profile/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/";
     console.log(jumpurl)
     res.redirect(jumpurl);
   }
