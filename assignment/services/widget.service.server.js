@@ -46,8 +46,9 @@ module.exports = function (app) {
 
     if (!widgetId) {
       console.log("create from server");
-      var tobeCreated = {widgetType: "IMAGE", pageId: pageId, "size": "2", text: "text", width:"100%",
+      var tobeCreated = {widgetType: 'IMAGE', pageId: pageId, size: 2, text: "text", width:"100%",
         url:"assets/uploads/" + filename, position: position};
+
       widgetModel.createWidget(pageId, tobeCreated);
       console.log(tobeCreated);
     } else {
