@@ -23,7 +23,6 @@ module.exports = function (app) {
     var userId = req.body.userId;
     var websiteId = req.body.websiteId;
     var pageId = req.body.pageId;
-    var position = req.body.position;
 
     var widgetId     = req.body.widgetId;
     var width         = req.body.width;
@@ -47,7 +46,7 @@ module.exports = function (app) {
     if (!widgetId) {
       console.log("create from server");
       var tobeCreated = {widgetType: 'IMAGE', pageId: pageId, size: 2, text: "text", width:"100%",
-        url:"assets/uploads/" + filename, position: position};
+        url:"assets/uploads/" + filename};
 
       widgetModel.createWidget(pageId, tobeCreated);
       console.log(tobeCreated);
@@ -56,7 +55,7 @@ module.exports = function (app) {
       foundWidget.url = "assets/uploads/" + filename;
       widgetModel.updateWidget(widgetId, foundWidget);
     }
-    const jumpurl = "https://xueyuan.herokuapp.com/#/profile/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/" + widgetId;
+    const jumpurl = "https://xueyuan.herokuapp.com/#/profile/" + userId + "/website/" + websiteId + "/page/" + pageId + "/widget/";
     console.log(jumpurl)
     res.redirect(jumpurl);
   }
