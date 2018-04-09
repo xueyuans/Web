@@ -29,8 +29,8 @@ module.exports = function (app) {
 
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', {
-      successRedirect: '/assignment/#/profile',
-      failureRedirect: '/assignment/#/login'
+      successRedirect: '/#/profile',
+      failureRedirect: '/#/login'
     }));
   app.get ('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
 
@@ -136,8 +136,6 @@ module.exports = function (app) {
           } else {
             var names = profile.displayName.split(" ");
             var newFacebookUser = {
-              username: profile.displayName,
-              password: profile.displayName,
               lastName:  names[1],
               firstName: names[0],
               email:     profile.emails ? profile.emails[0].value:"",
@@ -146,6 +144,7 @@ module.exports = function (app) {
                 token: token
               }
             };
+            console.log(newFacebookUser);
             return model.userModel.createUser(newFacebookUser);
           }
         },
