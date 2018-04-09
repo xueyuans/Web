@@ -4,7 +4,7 @@ import {UserService} from '../../../services/user.service.client';
 import {NgForm} from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import {SharedService} from '../../../services/shared.service';
-import {environment} from '../../../../environments/environment';
+import {environment} from '../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-login',
