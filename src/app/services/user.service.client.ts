@@ -20,7 +20,9 @@ export class UserService {
       .map(
         (res: Response) => {
           const user = res.json();
-          if (user !== '0') {
+          console.log(user !== 0);
+          if (user !== 0) {
+            console.log(user);
             this.sharedService.user = user; // setting user as global variable using shared service
             return true;
           } else {
@@ -31,14 +33,57 @@ export class UserService {
       );
   }
 
+  login(username: String, password: String) {
 
+    this.options.withCredentials = true;
+
+    const body = {
+      username : username,
+      password : password
+    };
+    return this.http.post(this.baseUrl + '/api/login', body, this.options)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        }
+      );
+  }
+
+  logout() {
+    this.options.withCredentials = true;
+    return this.http.post(this.baseUrl + '/api/logout', '', this.options)
+      .map(
+        (res: Response) => {
+          const data = res;
+        }
+      );
+  }
+
+  register(username: String, password: String) {
+
+    this.options.withCredentials = true;
+    const body = {
+      username : username,
+      password : password
+    };
+
+    return this.http.post(this.baseUrl + '/api/register', body, this.options)
+      .map(
+        (res: Response) => {
+          const data = res.json();
+          return data;
+        }
+      );
+  }
 
   hello() {
     return this.http.get(this.baseUrl + '/api/user/hello');
   }
 
   createUser(user) {
-    return this.http.post(this.baseUrl + '/api/user', user)
+    this.options.withCredentials = true;
+    return this.http.post(this.baseUrl + '/api/user', user, this.options)
       .map((res: Response) => {
         return res.json();
       });

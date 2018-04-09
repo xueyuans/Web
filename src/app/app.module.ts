@@ -40,7 +40,7 @@ import {SortableDirective} from './views/widget/widget-list/sortable.directive';
 import { FlickrImageSearchComponent } from './views/widget/widget-edit/widget-image/flickr-image-search/flickr-image-search.component';
 import {FlickrService} from './services/flickr.service.client';
 import {SharedService} from './services/shared.service';
-// import {AuthGuard} from './services/auth-gaurd.service';
+import {AuthGuard} from './services/auth-gaurd.service';
 import {ToUpperCasePipe} from './pipes/to-upper-case.pipe';
 import {OrderByPipe} from './views/widget/widget-list/order-by-pipe.pipe';
 import {SafePipe} from './views/widget/widget-list/safe-pipe.pipe';
@@ -79,7 +79,7 @@ import { Location, LocationStrategy, HashLocationStrategy } from '@angular/commo
     HttpModule,
     QuillEditorModule
   ],
-  providers: [UserService, WebsiteService, PageService, WidgetService, SharedService, FlickrService,
+  providers: [UserService, WebsiteService, PageService, WidgetService, AuthGuard, SharedService, FlickrService,
     { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })

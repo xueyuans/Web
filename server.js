@@ -1,22 +1,35 @@
-var express = require('express');
+const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 const path = require('path');
 const http = require('http');
+const cookieParser = require('cookie-parser');
+const session      = require('express-session');
+const passport = require('passport');
+
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// var connectionString = 'mongodb://127.0.0.1:27017/webmaker';
-// /*var connectionString = 'mongodb://heroku-url';*/
-// var mongoose = require("mongoose");
-// mongoose.createConnection( connectionString);
+app.use(session({
+  secret: 'this is the secret',
+  resave: true,
+  saveUninitialized: true
+}));
+
+
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
+
 //CORS
 app.use(function(reg, res, next){
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "https://xueyuan.herokuapp.com");
+  // res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE, OPTIONS');
+  res.header("Access-Control-Allow-Credentials", "true");
   next();
 })
 
@@ -25,13 +38,6 @@ app.set('port', port);
 
 // Create HTTP server
 const server = http.createServer(app);
-
-
-
-
-var hello = require('./hello');
-hello(app);
-// or require('./hello')(app);
 
 
 

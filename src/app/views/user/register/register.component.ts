@@ -9,21 +9,23 @@ import {UserService} from '../../../services/user.service.client';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
+
   pwErrorFlag: boolean;
   pwErrorMsg = 'Password should be same';
   userErrorFlag: boolean;
   userErrorMsg = 'Already Exist this userName';
+  username: string;
+  password: string;
   verifyPw: String;
   user = {_id: undefined, username: '', password: '', firstname: '', lastname: ''};
   constructor(private userService: UserService, private router: Router) { }
 
   register() {
     this.userService.createUser(this.user).subscribe(
-      (user: any) => {
-        this.user = user;
-        this.user._id = user._id;
+      (data: any) => {
+        this.user = data;
         console.log(this.user._id);
-        this.router.navigate(['/profile/' + this.user._id]);
+        this.router.navigate(['/profile']);
       }
     );
   }

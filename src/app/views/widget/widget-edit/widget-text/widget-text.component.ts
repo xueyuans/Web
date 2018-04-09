@@ -13,7 +13,6 @@ export class WidgetTextComponent implements OnInit {
   widget = {name: '', widgetType: '', pageId: '', text: '', rows: undefined, placeholder: undefined,
     formatted: undefined, position: undefined};
   websiteId: String;
-  userId: String;
   widgets: any[];
   constructor(private activatedRoute: ActivatedRoute, private widgetService: WidgetService, private router: Router) { }
 
@@ -52,7 +51,6 @@ export class WidgetTextComponent implements OnInit {
       (params: any) => {
         this.pageID = params['pid'];
         this.websiteId = params['wid'];
-        this.userId = params['userId'];
         this.widgetService.findWidgetsByPageId(this.pageID).subscribe(
           (widgets: any[]) => {
             this.widgets = widgets;
